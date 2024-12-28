@@ -1,0 +1,15 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: homeops-pg
+  namespace: kube-infra
+spec:
+  description: "postgres instance for selfhosted services"
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: homeops-pg-superuser
+  storage:
+    size: 10Gi

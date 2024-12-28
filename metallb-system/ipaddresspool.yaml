@@ -1,0 +1,9 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: home-pool
+  namespace: kube-infra
+spec:
+  addresses:
+  - 192.168.178.200-192.168.178.230

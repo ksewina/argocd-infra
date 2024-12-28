@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: homeops-pg-superuser
+  namespace: kube-infra
+type: Opaque
+stringData:
+  password: secret
+  username: postgres
+

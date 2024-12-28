@@ -1,0 +1,58 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+  namespace: calibre-web
+  labels:
+    app:  calibre-web
+spec:
+  selector:
+    matchLabels:
+      app: calibre-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app:  calibre-web
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+      - name: calibre-web
+        image: lscr.io/linuxserver/calibre-web:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 300m
+            memory: 512Mi
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Europe/Berlin"
+        ports:
+          - containerPort: 8083
+            name:  http
+        volumeMounts:
+        - name: calibre-config
+          mountPath: /config
+        - name: calibre-books
+          mountPath: /books
+      volumes:
+        - name: calibre-config
+          hostPath:
+            path: /data/media/calibre/config
+        - name: calibre-books
+          hostPath:
+            path: /data/media/calibre/books
+---
+
